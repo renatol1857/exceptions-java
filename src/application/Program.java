@@ -33,13 +33,7 @@ public class Program {
 			checkIn = sdf.parse(sc.next()); 
 			System.out.print("Enter new check-out date (dd/mm/yyyy): ");
 			checkOut = sdf.parse(sc.next()); 
-
-			if(checkIn.after(now) && checkOut.after(checkIn)) {
-				reserva.updateDates(checkIn, checkOut);
-				System.out.println(reserva);
-			}
-			else
-				System.out.println("Erro na entrada de datas.");
+			System.out.println(reserva.updateDates(checkIn, checkOut));
 		}
 		else {
 			System.out.println("Data Check-out menor que data check-in.");

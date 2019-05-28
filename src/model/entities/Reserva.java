@@ -38,14 +38,20 @@ public class Reserva {
 
 	public float duration() {
 		long diff = checkOut.getTime() - checkIn.getTime();
-		//duracao /= (1000 * 60 * 60 * 24);
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 		
 	}
 	
-	public void updateDates (Date checkIn, Date checkOut) {
+	public String updateDates (Date checkIn, Date checkOut) {
+		Date dateNow = new Date();
+		
+		if ( checkIn.before(dateNow) )
+			return "Data de check-in inferior a data atual.";
+		if(checkIn.after(checkOut))
+			return "Data de check-in superior a data de check-out.";
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		return toString();
 	}
 
 	@Override
