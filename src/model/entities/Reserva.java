@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import model.exceptions.DomainException;
+
 public class Reserva {
 	private Date checkIn, checkOut;
 	private int numQuarto;
@@ -13,6 +15,11 @@ public class Reserva {
 	}
 	
 	public Reserva(Date checkIn, Date checkOut, int numQuarto) {
+		Date dateNow = new Date();
+		if (checkIn.before(dateNow) || checkOut.before(dateNow) )
+			throw new IllegalArgumentException("Data de check-in/out inferior a data atual.");
+		if(checkIn.after(checkOut))
+			throw new IllegalArgumentException("Check-in maior que check-out.");
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
 		this.numQuarto = numQuarto;
@@ -42,16 +49,15 @@ public class Reserva {
 		
 	}
 	
-	public String updateDates (Date checkIn, Date checkOut) {
+	public void updateDates (Date checkIn, Date checkOut) throws DomainException{
 		Date dateNow = new Date();
 		
 		if ( checkIn.before(dateNow) )
-			return "Data de check-in inferior a data atual.";
+			throw new DomainException("Data de check-in inferior a data atual.");
 		if(checkIn.after(checkOut))
-			return "Data de check-in superior a data de check-out.";
+			throw new DomainException("Data de check-in superior a data de check-out.");
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
-		return toString();
 	}
 
 	@Override
